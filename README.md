@@ -1,2 +1,2 @@
-# vaccoin
+# Vaccoin
 Blockchain project
