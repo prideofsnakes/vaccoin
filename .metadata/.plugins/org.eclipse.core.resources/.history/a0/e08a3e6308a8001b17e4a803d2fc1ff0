@@ -1,0 +1,40 @@
+package no.site.vaccoin.main;
+
+public class Block {
+	public String hash;
+	public String previousHash;
+	private String data;
+	private long ts;
+	
+	private int nonce;
+	
+	public Block(String data, String prevHash){
+		this.data = data;
+		this.previousHash = prevHash;
+		this.ts = System.currentTimeMillis();
+		this.hash = calculateHash();
+	}
+	
+	
+	public String calculateHash() {
+		String calculatedhash = HashUtil.applySHA256( 
+				previousHash +
+				Long.toString(ts) +
+				data 
+				);
+		return calculatedhash;
+	}
+	
+	public void mineBlock(int difficulty) {
+		long now = System.currentTimeMillis();
+		String target = new String(new char[difficulty]).replace('\0', '0'); //Create a string with difficulty * "0" 
+		System.out.println("Target: "+target);
+		while(!hash.substring(0, difficulty).equals(target)) {
+			nonce ++;
+			hash = calculateHash();
+			System.out.println(hash);
+		}
+		System.out.println("Block Mined!!! : " + hash);
+		System.out.println("Mined for "+(System.currentTimeMillis() - now)/60000+" min");
+	}
+}

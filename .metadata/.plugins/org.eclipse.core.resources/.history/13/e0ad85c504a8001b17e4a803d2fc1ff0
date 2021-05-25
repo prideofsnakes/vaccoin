@@ -1,0 +1,25 @@
+package no.site.vaccoin.main;
+
+public class Block {
+	public String hash;
+	public String previousHash;
+	private String data;
+	private long ts;
+	
+	public Block(String data, String prevHash){
+		this.data = data;
+		this.previousHash = prevHash;
+		this.ts = System.currentTimeMillis();
+		this.hash = calculateHash();
+	}
+	
+	
+	public String calculateHash() {
+		String calculatedhash = HashUtil.applySHA256( 
+				previousHash +
+				Long.toString(ts) +
+				data 
+				);
+		return calculatedhash;
+	}
+}

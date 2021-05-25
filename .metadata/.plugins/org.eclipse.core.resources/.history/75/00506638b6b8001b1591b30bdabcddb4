@@ -1,0 +1,16 @@
+package tlgrm.bot.vacchain;
+
+import java.security.Security;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import no.site.vaccoin.main.Block;
+import no.site.vaccoin.main.TransactionOutput;
+import no.site.vaccoin.main.Wallet;
+
+public class BotMain {
+	public static void main (String []args) {
+		Security.addProvider(new BouncyCastleProvider()); 
+		
+	}
+}

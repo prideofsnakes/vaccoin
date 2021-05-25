@@ -1,0 +1,91 @@
+package tlgrm.bot.vacchain;
+
+import java.security.Security;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import no.site.vaccoin.main.Block;
+import no.site.vaccoin.main.TransactionOutput;
+import no.site.vaccoin.main.Wallet;
+
+public class BotMain {
+	public static void main (String []args) {
+		Security.addProvider(new BouncyCastleProvider()); 
+		//Create the new wallets
+		Wallet walletA = new Wallet();
+		Wallet walletB = new Wallet();
+		Wallet walletC = new Wallet();
+		Wallet coinbase = new Wallet();
+		coinbasePublicKey = coinbase.publicKey;
+		String genesisId = "0";
+		
+//		coinbase.UTXOs.put(genesisOutputId, new TransactionOutput(coinbase.publicKey, 100f, genesisOutputId));
+//		UTXOs.put(coinbase.UTXOs.get(genesisOutputId).id, coinbase.UTXOs.get(genesisOutputId));
+		//base release
+		TransactionOutput baseOutput1 = new TransactionOutput(coinbase.publicKey, 100f, genesisId);
+		UTXOs.put(baseOutput1.id, baseOutput1);
+//		TransactionOutput baseOutput2 = new TransactionOutput(walletA.publicKey, 50f, genesisId);
+//		UTXOs.put(baseOutput2.id, baseOutput2);
+		//check
+//		System.out.println(UTXOs.toString());
+//		System.out.println("\nWalletB's balance is: " + walletB.getBalance());
+//		System.out.println("WalletA's balance is: " + walletA.getBalance());
+//		System.out.println("coinbase balance is: " + coinbase.getBalance());
+//		System.out.println("walletA utxo: "+walletA.UTXOs.toString());
+//		System.out.println("walletB utxo: "+walletB.UTXOs.toString());
+//		System.out.println("coinbase utxo: "+coinbase.UTXOs.toString());
+		//testing
+		Block block1 = new Block(genesisId);
+		System.out.println("\ncoinbase is Attempting to send funds (50) to WalletA...");
+		block1.addTransaction(coinbase.sendFunds(walletA.publicKey, 50f));
+//		System.out.println(UTXOs.toString());
+//		System.out.println("\nWalletB's balance is: " + walletB.getBalance());
+//		System.out.println("WalletA's balance is: " + walletA.getBalance());
+//		System.out.println("coinbase balance is: " + coinbase.getBalance());
+//		System.out.println("walletA utxo: "+walletA.UTXOs.toString());
+//		System.out.println("walletB utxo: "+walletB.UTXOs.toString());
+//		System.out.println("coinbase utxo: "+coinbase.UTXOs.toString());
+		System.out.println("\ncoinbase is Attempting to send funds (50) to WalletB...");
+		block1.addTransaction(coinbase.sendFunds(walletB.publicKey, 50f));	
+		addBlock(block1);
+//		System.out.println(UTXOs.toString());
+//		System.out.println("\nWalletB's balance is: " + walletB.getBalance());
+//		System.out.println("WalletA's balance is: " + walletA.getBalance());
+//		System.out.println("walletA utxo: "+walletA.UTXOs.toString());
+//		System.out.println("walletB utxo: "+walletB.UTXOs.toString());
+//		System.out.println("coinbase utxo: "+coinbase.UTXOs.toString());
+		
+		Block block2 = new Block(blockchain.get(blockchain.size()-1).hash);
+		System.out.println("WalletB is Attempting to send funds (30) to WalletC...");
+		block2.addTransaction(walletB.sendFunds(walletC.publicKey, 30f));
+
+//		System.out.println("\nWalletB's balance is: " + walletB.getBalance());
+//		System.out.println("WalletA's balance is: " + walletA.getBalance());
+		
+//		System.out.println(UTXOs.toString());
+		
+//		Block block3 = new Block(blockchain.get(blockchain.size()-1).hash);
+		System.out.println("\nWalletA Attempting to send more funds (1000) than it has...");
+		block2.addTransaction(walletA.sendFunds(walletB.publicKey, 1000f));
+		
+		
+		System.out.println("\nWalletA Attempting to send funds (10) to coinbase...(restricted!!!)");
+		block2.addTransaction(walletA.sendFunds(coinbase.publicKey, 10f));
+//		addBlock(block3);
+//		System.out.println("\nWalletA's balance is: " + walletA.getBalance());
+//		System.out.println("WalletB's balance is: " + walletB.getBalance());
+//		System.out.println("walletA utxo: "+walletA.UTXOs.toString());
+//		System.out.println("walletB utxo: "+walletB.UTXOs.toString());
+//		System.out.println("coinbase utxo: "+coinbase.UTXOs.toString());
+		
+//		Block block4 = new Block(blockchain.get(blockchain.size()-1).hash);
+		System.out.println("\nWalletB is Attempting to send funds (20) to WalletA...");
+		block2.addTransaction(walletB.sendFunds( walletA.publicKey, 20)); 
+		System.out.println("\nWalletA's balance is: " + walletA.getBalance());
+		System.out.println("WalletB's balance is: " + walletB.getBalance());
+		System.out.println("WalletC's balance is: " + walletC.getBalance());
+		addBlock(block2);
+		System.out.println("\nStart validating...");
+		isChainValid();
+	}
+}
